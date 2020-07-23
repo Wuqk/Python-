@@ -1,6 +1,8 @@
 import tesserocr
 from PIL import Image
 
+"""使用tesserocr进行图片识别"""
+
 def processing_image(image):
     img = image.convert('L')  #转化为灰度图
     pixdata = img.load()
@@ -42,17 +44,18 @@ def delete_spot(image):
                 black_point = 0
     return image
 
-image = Image.open(r'D:\Users\Administrator\Desktop\IMAGE\P1.jpg')
 def chuli(image):
     im = delete_spot(processing_image(image))
     w1,h1 = im.size
-    #对图片大小进行处理
+    #对图片大小进行处理,如果图片太小会影响识别效果
     if w1<h1:
         i = im.resize((int(100),int(h1*(100/w1))))
     else:
         i = im.resize((int(w1*(100/h1)),int(100)))
     return i
 
+#加载图片
+image = Image.open(r'D:\Users\Administrator\Desktop\IMAGE\P1.jpg')
 #文字识别
 print(tesserocr.image_to_text(chuli(image)))
 
